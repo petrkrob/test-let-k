@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Srovnání portfolií | Partners styl</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #00A3AD;
+    --gold-light: #5FD0D6;
+    --dark: #002B45;
+    --dark2: #083B5C;
+    --dark3: #0E4F73;
+    --card: #103F60;
+    --border: rgba(0,163,173,0.24);
+    --text: #EAF7F8;
+    --muted: #A8CBD0;
+    --red: #E05252;
+    --green: #52C97B;
+    --blue: #5285E0;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--dark);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    padding: 0 0 60px;
+  }
+
+  /* HEADER */
+  .header {
+    background: linear-gradient(135deg, var(--dark2) 0%, #10131C 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 48px 40px 40px;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: '';
+    position: absolute;
+    top: -80px; right: -80px;
+    width: 360px; height: 360px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(0,163,173,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .header-label {
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 12px;
+    font-weight: 500;
+  }
+  .header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    font-weight: 900;
+    line-height: 1.1;
+    color: #fff;
+    max-width: 600px;
+  }
+  .header h1 span { color: var(--gold-light); }
+  .header-sub {
+    margin-top: 12px;
+    color: var(--muted);
+    font-size: 14px;
+    font-weight: 300;
+  }
+
+  /* VERDICT BANNER */
+  .verdict {
+    margin: 32px 40px 0;
+    background: linear-gradient(135deg, rgba(0,163,173,0.18), rgba(0,163,173,0.06));
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--gold);
+    border-radius: 10px;
+    padding: 20px 24px;
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+  }
+  .verdict-icon { font-size: 24px; flex-shrink: 0; margin-top: 2px; }
+  .verdict-text { font-size: 14px; line-height: 1.7; color: var(--text); }
+  .verdict-text strong { color: var(--gold-light); }
+
+  /* MAIN GRID */
+  .main-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin: 32px 40px 0;
+  }
+
+  /* PORTFOLIO CARD */
+  .portfolio-card {
+    background: var(--card);
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,0.06);
+    overflow: hidden;
+  }
+  .card-header {
+    padding: 22px 24px 16px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .card-badge {
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-weight: 600;
+  }
+  .badge-t212 { background: rgba(124,201,211,0.18); color: #7CC9D3; border: 1px solid rgba(124,201,211,0.30); }
+  .badge-ivk { background: rgba(0,163,173,0.18); color: var(--gold-light); border: 1px solid var(--border); }
+  .card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: #fff;
+    margin-top: 2px;
+  }
+  .card-body { padding: 20px 24px; }
+
+  /* ALLOCATION BAR */
+  .alloc-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--muted);
+    margin-bottom: 10px;
+    font-weight: 500;
+  }
+  .alloc-bar {
+    height: 10px;
+    border-radius: 6px;
+    display: flex;
+    overflow: hidden;
+    margin-bottom: 10px;
+    gap: 2px;
+  }
+  .bar-seg { height: 100%; border-radius: 3px; }
+  .alloc-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 16px;
+    margin-bottom: 20px;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .legend-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* METRICS */
+  .metrics {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  .metric {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 10px;
+    padding: 12px 14px;
+  }
+  .metric-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--muted);
+    margin-bottom: 4px;
+    font-weight: 500;
+  }
+  .metric-value {
+    font-size: 16px;
+    font-weight: 600;
+    color: #fff;
+  }
+  .metric-value.good { color: var(--green); }
+  .metric-value.bad { color: var(--red); }
+  .metric-value.warn { color: #E0A852; }
+
+  /* PROS/CONS */
+  .pros-cons { display: flex; flex-direction: column; gap: 6px; }
+  .point {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--text);
+  }
+  .point-icon { flex-shrink: 0; margin-top: 1px; font-size: 14px; }
+
+  /* COMPARISON TABLE */
+  .compare-section {
+    margin: 24px 40px 0;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13.5px;
+  }
+  thead th {
+    padding: 12px 16px;
+    text-align: left;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 500;
+    background: var(--dark3);
+    border-bottom: 1px solid var(--border);
+  }
+  thead th:first-child { border-radius: 10px 0 0 0; }
+  thead th:last-child { border-radius: 0 10px 0 0; }
+  tbody tr { border-bottom: 1px solid rgba(255,255,255,0.04); }
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:hover { background: rgba(255,255,255,0.02); }
+  td {
+    padding: 14px 16px;
+    vertical-align: top;
+    line-height: 1.5;
+  }
+  td:first-child { color: var(--muted); font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: 1px; }
+  td:nth-child(2) { color: #7CC9D3; }
+  td:nth-child(3) { color: var(--gold-light); }
+  .tag { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; margin-right: 4px; }
+  .tag-red { background: rgba(224,82,82,0.15); color: var(--red); }
+  .tag-green { background: rgba(82,201,123,0.15); color: var(--green); }
+  .tag-warn { background: rgba(224,168,82,0.15); color: #E0A852; }
+
+  /* RISK RADAR */
+  .risk-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin: 24px 40px 0;
+  }
+  .risk-card {
+    background: var(--card);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 14px;
+    padding: 18px;
+    text-align: center;
+  }
+  .risk-title { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 14px; }
+  .risk-bars { display: flex; justify-content: center; gap: 6px; align-items: flex-end; height: 50px; margin-bottom: 10px; }
+  .risk-bar-wrap { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+  .risk-bar { width: 18px; border-radius: 4px 4px 0 0; }
+  .risk-bar-label { font-size: 9px; color: var(--muted); }
+  .risk-note { font-size: 11px; color: var(--muted); line-height: 1.5; }
+
+  /* RECOMMENDATION */
+  .recommendation {
+    margin: 24px 40px 0;
+    background: linear-gradient(135deg, rgba(0,163,173,0.16), rgba(0,163,173,0.05));
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 28px 32px;
+  }
+  .rec-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--gold-light);
+    margin-bottom: 16px;
+  }
+  .rec-points { display: flex; flex-direction: column; gap: 10px; }
+  .rec-point {
+    display: flex;
+    gap: 10px;
+    font-size: 13.5px;
+    line-height: 1.6;
+    color: var(--text);
+  }
+  .rec-num {
+    flex-shrink: 0;
+    width: 22px; height: 22px;
+    background: var(--gold);
+    color: var(--dark);
+    border-radius: 50%;
+    font-size: 11px;
+    font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    margin-top: 2px;
+  }
+
+  /* FOOTER */
+  .footer {
+    margin: 32px 40px 0;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+    font-size: 11px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  @media (max-width: 800px) {
+    .main-grid { grid-template-columns: 1fr; margin: 24px 20px 0; }
+    .header { padding: 32px 20px; }
+    .verdict, .compare-section, .risk-grid, .recommendation, .footer { margin-left: 20px; margin-right: 20px; }
+    .risk-grid { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-label">Analýza portfolií · Březen 2026</div>
+  <h1>Srovnání investičních<br><span>přístupů klienta</span></h1>
+  <div class="header-sub">Trading 212 (vlastní správa) vs. Investice v Kostce 2.0 (Partners)</div>
+</div>
+
+<div class="verdict">
+  <div class="verdict-icon">⚡</div>
+  <div class="verdict-text">
+    Klient si sestavil portfolio s logickou strukturou, ale bez poradenství — výsledkem je <strong>výrazná koncentrace v tech sektoru (~50–55 % skutečné expozice)</strong>, nulová složka dluhopisů a nemovitostí a žádné daňové optimalizace. IvK 2.0 nabízí oproti tomu <strong>profesionálně řízenou, diverzifikovanou alternativu</strong> s daňovou výhodou a nižšími skutečnými náklady než se zdá na první pohled.
+  </div>
+</div>
+
+<!-- MAIN PORTFOLIO CARDS -->
+<div class="main-grid">
+
+  <!-- T212 CARD -->
+  <div class="portfolio-card">
+    <div class="card-header">
+      <div>
+        <div class="card-badge badge-t212">Vlastní správa</div>
+        <div class="card-title">Trading 212</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="alloc-label">Rozložení portfolia</div>
+      <div class="alloc-bar">
+        <div class="bar-seg" style="width:60%;background:#5285E0;"></div>
+        <div class="bar-seg" style="width:10%;background:#E05252;"></div>
+        <div class="bar-seg" style="width:10%;background:#5BAFDB;"></div>
+        <div class="bar-seg" style="width:10%;background:#76D97A;"></div>
+        <div class="bar-seg" style="width:5%;background:#B57AE0;"></div>
+        <div class="bar-seg" style="width:5%;background:#E0A852;"></div>
+      </div>
+      <div class="alloc-legend">
+        <div class="legend-item"><div class="legend-dot" style="background:#5285E0"></div>Vanguard All-World 60%</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#E05252"></div>Meta 10%</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#5BAFDB"></div>Microsoft 10%</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#76D97A"></div>Nvidia 10%</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#B57AE0"></div>ASML 5%</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#E0A852"></div>WisdomTree 5%</div>
+      </div>
+
+      <div class="metrics">
+        <div class="metric">
+          <div class="metric-label">Měsíční vklad</div>
+          <div class="metric-value">8 000 Kč</div>
+        </div>
+        <div class="metric">
+          <div class="metric-label">Hodnota portfolia</div>
+          <div class="metric-value">~17 000 Kč</div>
+        </div>
+        <div class="metric">
+          <div class="metric-label">Skuteč. tech expozice</div>
+          <div class="metric-value bad">~52 %</div>
+        </div>
+        <div class="metric">
+          <div class="metric-label">Dluhopisy / Nemovitosti</div>
+          <div class="metric-value bad">0 %</div>
+        </div>
+        <div class="metric">
+          <div class="metric-label">Poplatky ETF (TER)</div>
+          <div class="metric-value good">~0,07–0,22%</div>
+        </div>
+        <div class="metric">
+          <div class="metric-label">Správa portfolia</div>
+          <div class="metric-value warn">Sám klient</div>
+        </div>
+      </div>
+
+      <div class="alloc-label" style="margin-top:4px">Silné stránky</div>
+      <div class="pros-cons">
+        <div class="point"><span class="point-icon">✓</span>Nízké přímé náklady (ETF TER blízko nule)</div>
+        <div class="point"><span class="point-icon">✓</span>Globální diverzifikace přes Vanguard All-World jako základ</div>
+        <div class="point"><span class="point-icon">✓</span>Jasná cílová alokace (klient ji zná)</div>
+      </div>
+      <div class="alloc-label" style="margin-top:14px">Slabé stránky & rizika</div>
+      <div class="pros-cons">
+        <div class="point"><span class="point-icon" style="color:var(--red)">✗</span>Žádné dluhopisy ani nemovitosti — portfolio padá celé najednou</div>
+        <div class="point"><span class="point-icon" style="color:var(--red)">✗</span>Rebalancování = daňová událost (prodej akcií pod 3 roky)</div>
+        <div class="point"><span class="point-icon" style="color:var(--red)">✗</span>Klient nemá odborný dohled — emocionální rozhodování v krizi</div>
+        <div class="point"><span class="point-icon" style="color:var(--red)">✗</span>Vysoká koncentrace v tech (Nvidia, ASML, MSFT, Meta + podíl v ETF)</div>
+        <div class="point"><span class="point-icon" style="color:var(--red)">✗</span>Žádná daňová optimalizace struktury</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- IVK CARD -->
+  <div class="portfolio-card">
+    <div class="card-header">
+      <div>
+        <div class="card-badge badge-ivk">Partners · IvK 2.0</div>
+        <div class="card-title">Investice v Kostce 2.0</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="alloc-label">Doporučené rozložení (dynamický, 11+ let)</div>
+      <div class="alloc-bar">
+        <div class="bar-seg" style="width:100%;background:linear-gradient(90deg,#00A3AD,#5FD0D6);"></div>
+      </div>
+      <div class="alloc-legend">
+        <div class="legend-item"><div class="legend-dot" style="background:#00A3AD"></div>Partners Equity Strategies (PES) 100 %</div>
+      </div>
+      <div style="font-size:11px;color:var(--muted);margin-bottom:16px;">nebo vyvážený 8–10 let: 50 % PES / 35 % PBS / 15 % Trigea</div>
+
+      <div class="metrics">
+        <div class="metric">
+          <div class="metric-label">Správa portfolia</div>
+          <div class="metric-value good">AM tým PIS</div>
+        </div>
+        <div class="metric">
+          <div class="metric-label">Daňová výhoda</div>
+          <div class="metric-value good">Ano (fond)</div>
+        </div>
+        <div class="metric">
+          <div class="metric-label">Dluhopisy / Nemovitosti</div>
+          <div class="metric-value good">Dle profilu</div>
+        </div>
+        <div class="metric">
+          <div class="metric-label">Rebalancování</div>
+          <div class="metric-value good">Bez daně</div>
+        </div>
+        <div class="metric">
+          <div class="metric-label">TER PES (management fee)</div>
+          <div class="metric-value warn">2,056 %</div>
+        </div>
+        <div class="metric">
+          <div class="metric-label">Skutečný poplatek klienta</div>
+          <div class="metric-value good">~0,3 % + OCP</div>
+        </div>
+      </div>
+
+      <div class="alloc-label" style="margin-top:4px">Silné stránky</div>
+      <div class="pros-cons">
+        <div class="point"><span class="point-icon">✓</span>Aktivní správa investičním výborem — rychlá reakce na trh</div>
+        <div class="point"><span class="point-icon">✓</span>Rebalancování bez daňové povinnosti (struktura fondu)</div>
+        <div class="point"><span class="point-icon">✓</span>Úplná diverzifikace: akcie + dluhopisy + nemovitosti</div>
+        <div class="point"><span class="point-icon">✓</span>9 portfolií dle rizikového profilu — šito přesně na míru</div>
+        <div class="point"><span class="point-icon">✓</span>Vratka 1 % zpět na účet klienta — snižuje reálný náklad</div>
+        <div class="point"><span class="point-icon">✓</span>Klient nemusí nic hlídat — poradce je průběžně informován</div>
+      </div>
+      <div class="alloc-label" style="margin-top:14px">Slabé stránky & rizika</div>
+      <div class="pros-cons">
+        <div class="point"><span class="point-icon" style="color:#E0A852">△</span>TER na papíře vypadá vyšší (ale 1 % jde zpět klientovi)</div>
+        <div class="point"><span class="point-icon" style="color:#E0A852">△</span>Menší transparentnost obsahu fondů pro laického klienta</div>
+        <div class="point"><span class="point-icon" style="color:#E0A852">△</span>Distribuce pouze přes Partners Securities (OCP)</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- COMPARISON TABLE -->
+<div class="compare-section">
+  <div class="section-title">Podrobné srovnání</div>
+  <table>
+    <thead>
+      <tr>
+        <th style="width:22%">Kritérium</th>
+        <th style="width:39%">Trading 212 (vlastní správa)</th>
+        <th style="width:39%">Investice v Kostce 2.0 (Partners)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Diverzifikace aktiv</td>
+        <td><span class="tag tag-red">Riziková</span> Pouze akcie, 0 % dluhopisy, 0 % nemovitosti</td>
+        <td><span class="tag tag-green">Plná</span> Akcie + dluhopisy (PBS) + nemovitosti (Trigea) dle profilu</td>
+      </tr>
+      <tr>
+        <td>Tech koncentrace</td>
+        <td><span class="tag tag-red">~52 %</span> Vanguard All-World (~25 % tech) + 35 % přímé tech tituly</td>
+        <td><span class="tag tag-green">Vyvážená</span> Globálně diverzifikovaný PES se sektorovou rovnováhou</td>
+      </tr>
+      <tr>
+        <td>Daňová optimalizace</td>
+        <td><span class="tag tag-red">Žádná</span> Prodej/rebalancování = zdanitelný příjem do 3 let</td>
+        <td><span class="tag tag-green">Ano</span> Rebalancování uvnitř fondu bez daňové povinnosti klienta</td>
+      </tr>
+      <tr>
+        <td>Správa portfolia</td>
+        <td><span class="tag tag-warn">Klient sám</span> Bez odborné analýzy, riziko emočních rozhodnutí</td>
+        <td><span class="tag tag-green">AM tým PIS</span> Investiční výbor, Sbor poradců, denní dohled</td>
+      </tr>
+      <tr>
+        <td>Skutečné náklady</td>
+        <td><span class="tag tag-green">ETF ~0,07–0,22 %</span> Nízké přímé poplatky</td>
+        <td><span class="tag tag-green">AM ~0,3 %</span> Po odečtení vratky 1 % klientovi. Srovnatelné!</td>
+      </tr>
+      <tr>
+        <td>Rebalancování</td>
+        <td><span class="tag tag-red">Ruční</span> Klient musí sám, riziko daně a odkladu</td>
+        <td><span class="tag tag-green">Automatické</span> AM tým bez dopadu na klienta</td>
+      </tr>
+      <tr>
+        <td>Přizpůsobení profilu</td>
+        <td><span class="tag tag-warn">Improvizované</span> Bez dotazníku, bez analýzy rizika</td>
+        <td><span class="tag tag-green">Systematické</span> 9 portfolií dle rizika a horizontu + satelity</td>
+      </tr>
+      <tr>
+        <td>Transparentnost</td>
+        <td><span class="tag tag-green">Vysoká</span> Klient vidí každou akcii v reálném čase</td>
+        <td><span class="tag tag-warn">Střední</span> Rozpad na podfondy viditelný v Partners apce</td>
+      </tr>
+      <tr>
+        <td>Vhodnost pro krizi</td>
+        <td><span class="tag tag-red">Riziko</span> Klient bez poradce může prodat ve špatný moment</td>
+        <td><span class="tag tag-green">Chráněna</span> Poradce komunikuje a klient nemění portfolio sám</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- RISK SECTION -->
+<div style="margin: 28px 40px 0;">
+  <div class="section-title">Vizuální srovnání rizikových dimenzí</div>
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;">
+
+    <div class="risk-card">
+      <div class="risk-title">Sektorová koncentrace</div>
+      <div class="risk-bars">
+        <div class="risk-bar-wrap">
+          <div class="risk-bar" style="height:42px;background:#5285E0;"></div>
+          <div class="risk-bar-label">T212</div>
+        </div>
+        <div class="risk-bar-wrap">
+          <div class="risk-bar" style="height:16px;background:var(--gold);"></div>
+          <div class="risk-bar-label">IvK</div>
+        </div>
+      </div>
+      <div class="risk-note">T212 má ~52 % tech. IvK je globálně vyvážené.</div>
+    </div>
+
+    <div class="risk-card">
+      <div class="risk-title">Volatilita portfolia</div>
+      <div class="risk-bars">
+        <div class="risk-bar-wrap">
+          <div class="risk-bar" style="height:46px;background:#E05252;"></div>
+          <div class="risk-bar-label">T212</div>
+        </div>
+        <div class="risk-bar-wrap">
+          <div class="risk-bar" style="height:26px;background:var(--gold);"></div>
+          <div class="risk-bar-label">IvK</div>
+        </div>
+      </div>
+      <div class="risk-note">Pouze akciové portfolio = vysoká volatilita v krizi.</div>
+    </div>
+
+    <div class="risk-card">
+      <div class="risk-title">Daňová efektivita</div>
+      <div class="risk-bars">
+        <div class="risk-bar-wrap">
+          <div class="risk-bar" style="height:14px;background:#E05252;"></div>
+          <div class="risk-bar-label">T212</div>
+        </div>
+        <div class="risk-bar-wrap">
+          <div class="risk-bar" style="height:44px;background:var(--green);"></div>
+          <div class="risk-bar-label">IvK</div>
+        </div>
+      </div>
+      <div class="risk-note">IvK rebalancuje bez daně. T212 každý prodej zdaňuje.</div>
+    </div>
+
+    <div class="risk-card">
+      <div class="risk-title">Kvalita správy</div>
+      <div class="risk-bars">
+        <div class="risk-bar-wrap">
+          <div class="risk-bar" style="height:16px;background:#5285E0;"></div>
+          <div class="risk-bar-label">T212</div>
+        </div>
+        <div class="risk-bar-wrap">
+          <div class="risk-bar" style="height:44px;background:var(--gold);"></div>
+          <div class="risk-bar-label">IvK</div>
+        </div>
+      </div>
+      <div class="risk-note">AM tým + investiční výbor vs. klient bez poradenství.</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- AI BUBBLE -->
+<div style="margin: 24px 40px 0;">
+  <div class="section-title">Riziko AI bubliny — přímý dopad na T212 portfolio</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+
+    <div style="background:rgba(224,82,82,0.07);border:1px solid rgba(224,82,82,0.25);border-left:4px solid var(--red);border-radius:12px;padding:22px 24px;">
+      <div style="font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--red);margin-bottom:12px;font-weight:600;">⚠ Koncentrace v AI titulech</div>
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <div class="point"><span class="point-icon" style="color:var(--red)">▲</span><div><strong>Nvidia (10 %):</strong> Čistý AI chip play — valuace 30× tržby. Jakékoli zklamání v AI poptávce = propad 30–50 %.</div></div>
+        <div class="point"><span class="point-icon" style="color:var(--red)">▲</span><div><strong>ASML (5 %):</strong> Monopol na EUV lithografii. Silně závislý na objemu objednávek od výrobců AI čipů.</div></div>
+        <div class="point"><span class="point-icon" style="color:var(--red)">▲</span><div><strong>Microsoft + Meta (20 %):</strong> Oba masivně investují do AI infrastruktury — pokud se ROI AI neprokáže, tlak na zisky.</div></div>
+        <div class="point"><span class="point-icon" style="color:#E0A852)">▲</span><div><strong>Vanguard All-World (60 %):</strong> Sám obsahuje ~8–10 % Nvidia, MSFT, Meta, ASML → skutečná AI expozice portfolia je přes <strong style="color:var(--red)">45 %</strong>.</div></div>
+      </div>
+    </div>
+
+    <div style="background:rgba(201,168,76,0.07);border:1px solid var(--border);border-radius:12px;padding:22px 24px;">
+      <div style="font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:12px;font-weight:600;">📊 Historický kontext bublin</div>
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <div class="point"><span class="point-icon">•</span><div><strong>Dot-com 2000:</strong> Nasdaq klesl o <strong style="color:var(--red)">−78 %</strong> za 2,5 roku. Obnova trvala <strong>15 let</strong>. Kdo nevydržel, realizoval ztrátu.</div></div>
+        <div class="point"><span class="point-icon">•</span><div><strong>AI ≠ dot-com</strong>, ale valuace AI titulů jsou historicky vysoké. Korekce 30–40 % je reálný scénář i bez kolapsu.</div></div>
+        <div class="point"><span class="point-icon" style="color:var(--green)">•</span><div><strong>IvK 2.0:</strong> AM tým může snížit expozici do tech sektoru <strong>bez daňové události</strong>. Klient v T212 to udělat nemůže bez rizika daně z prodeje.</div></div>
+      </div>
+      <div style="margin-top:14px;padding:10px 14px;background:rgba(224,82,82,0.08);border-radius:8px;font-size:12px;color:#F0A0A0;line-height:1.6;">
+        Klient investuje <strong>8 000 Kč měsíčně</strong> — za rok to bude ~110 000 Kč. 40% propad AI sektoru by při této alokaci znamenal ztrátu <strong>~45 000–55 000 Kč</strong> na aktuální hodnotě.
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ADVISOR STATS -->
+<div style="margin: 24px 40px 0;">
+  <div class="section-title">Poradce vs. sám — co říkají data</div>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:16px;">
+
+    <div style="background:var(--card);border:1px solid rgba(255,255,255,0.06);border-radius:14px;padding:22px;text-align:center;">
+      <div style="font-family:'Playfair Display',serif;font-size:42px;font-weight:900;color:var(--red);line-height:1;">−1,9 %</div>
+      <div style="font-size:12px;color:var(--muted);margin-top:8px;line-height:1.5;">průměrný roční výnos<br>samosprávného retailového investora<br><span style="font-size:10px;color:rgba(136,144,168,0.6)">DALBAR QAIB studie, 20letý průměr</span></div>
+    </div>
+
+    <div style="background:var(--card);border:1px solid rgba(255,255,255,0.06);border-radius:14px;padding:22px;text-align:center;">
+      <div style="font-family:'Playfair Display',serif;font-size:42px;font-weight:900;color:var(--green);line-height:1;">+3× </div>
+      <div style="font-size:12px;color:var(--muted);margin-top:8px;line-height:1.5;">vyšší čistý výnos u investorů<br>s finančním poradcem vs. bez něj<br><span style="font-size:10px;color:rgba(136,144,168,0.6)">Vanguard „Advisor's Alpha" studie</span></div>
+    </div>
+
+    <div style="background:var(--card);border:1px solid rgba(255,255,255,0.06);border-radius:14px;padding:22px;text-align:center;">
+      <div style="font-family:'Playfair Display',serif;font-size:42px;font-weight:900;color:var(--gold-light);line-height:1;">~3 %</div>
+      <div style="font-size:12px;color:var(--muted);margin-top:8px;line-height:1.5;">roční přidaná hodnota<br>kvalitního poradce (tzv. „Alpha")<br><span style="font-size:10px;color:rgba(136,144,168,0.6)">Vanguard, Morningstar, Russell Investments</span></div>
+    </div>
+
+  </div>
+
+  <div style="background:var(--dark3);border:1px solid var(--border);border-radius:12px;padding:20px 24px;display:flex;gap:20px;align-items:flex-start;">
+    <div style="font-size:28px;flex-shrink:0;">🧠</div>
+    <div>
+      <div style="font-weight:600;font-size:14px;color:#fff;margin-bottom:8px;">Proč samosprávní investoři prodělávají i v rostoucím trhu?</div>
+      <div style="display:flex;flex-direction:column;gap:6px;">
+        <div class="point" style="font-size:13px;"><span style="color:var(--red);font-weight:700;flex-shrink:0;">01</span><div><strong>Behaviorální chyby:</strong> Kupují na vrcholu (euforie), prodávají ve dně (panika). Průměrný investor drží fond pouhé <strong>2–3 roky</strong> místo 10+.</div></div>
+        <div class="point" style="font-size:13px;"><span style="color:var(--red);font-weight:700;flex-shrink:0;">02</span><div><strong>Timing trhu:</strong> 80 % nejlepších dnů na trhu nastává těsně po největších pádech — kdo prodá, propásne obnovu.</div></div>
+        <div class="point" style="font-size:13px;"><span style="color:var(--red);font-weight:700;flex-shrink:0;">03</span><div><strong>Absence plánu:</strong> Bez jasného horizontu a profilu klient mění strategii podle nálad — přesně co hrozí u tohoto klienta.</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- RECOMMENDATION -->
+<div class="recommendation">
+  <div class="rec-title">💬 Doporučení pro jednání s klientem</div>
+  <div class="rec-points">
+    <div class="rec-point"><div class="rec-num">1</div><div>Ocenit klientovu iniciativu — má zájem, má strukturu, začal. To je základ pro konstruktivní rozhovor, ne kritiku.</div></div>
+    <div class="rec-point"><div class="rec-num">2</div><div><strong>Upozornit na skrytou tech koncentraci:</strong> Klient si myslí, že má 60 % v "celém světě" — ale Vanguard All-World sám obsahuje ~25 % tech. Skutečná expozice je tedy ~52 %. V případě poklesu Nvidie nebo Meta to pocítí celé portfolio.</div></div>
+    <div class="rec-point"><div class="rec-num">3</div><div><strong>Zdůraznit daňový argument:</strong> Pokud bude chtít rebalancovat před uplynutím 3 let, zaplatí daň ze zisku. V IvK 2.0 k tomu nedochází — fond rebalancuje interně.</div></div>
+    <div class="rec-point"><div class="rec-num">4</div><div><strong>Srovnat skutečné náklady:</strong> TER IvK vypadá vyšší, ale po odečtení vratky 1 % klientovi zpět je reálný náklad srovnatelný s přímým nákupem ETF — přičemž klient dostává navíc AM a poradenství.</div></div>
+    <div class="rec-point"><div class="rec-num">5</div><div>Nabídnout <strong>přechod nebo souběh</strong>: IvK 2.0 jako hlavní portfolio (např. 6 000 Kč/měs.), Trading 212 ponechat jako "hrátkový" účet pro vlastní nápady (2 000 Kč/měs.) — klient si zachová pocit kontroly.</div></div>
+  </div>
+</div>
+
+<div class="footer">
+  Tato analýza slouží jako podklad pro konzultaci finančního poradce s klientem. Nezakládá investiční doporučení ve smyslu zákona o podnikání na kapitálovém trhu. Výkonnost portfolií v minulosti nezaručuje výkonnost budoucí.
+</div>
+
+</body>
+</html>
